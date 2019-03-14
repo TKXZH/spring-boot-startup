@@ -46,5 +46,6 @@ public class ProductRepositoryTest extends SpringBootStartupApplicationTests {
         Sort sort = Sort.by("price");
         PageRequest pageRequest = PageRequest.of(0, 5, sort);
         Page<Product> productsByPage = productRepository.findAll(pageRequest);
-    }
+		System.out.println(productsByPage);
+	}
 }
