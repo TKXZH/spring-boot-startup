@@ -22,24 +22,11 @@
 
   <p>{{name}}</p>
   <button v-on:click="reverse">reverse the string above</button>
+  <click-counter></click-counter>
 </div>
+
 </body>
-<script>
-  var app = new Vue({
-    el: '#app',
-    data: {
-      name: "zonghuixu",
-      age: 24,
-      use: false
-    },
-    methods: {
-      getInfo: function () {
-        return this.name + " is running!";
-      },
-      reverse: function () {
-        this.name = this.name.split('').reverse().join('')
-      }
-    }
-  });
-</script>
+
+<script src="/js/vue-component.js"></script>
+
 </html>
