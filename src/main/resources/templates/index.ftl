@@ -16,7 +16,7 @@
   <label for="r1">change color</label>
   <input type="checkbox" v-model="use" id="r1">
   <div v-bind:class="{'class1': use}">
-    v-bind:class 指令
+    v-bind:class command
   </div>
   <div v-if="use">I'm here!</div>
 
