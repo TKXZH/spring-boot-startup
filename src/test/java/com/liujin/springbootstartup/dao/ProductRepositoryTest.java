@@ -33,7 +33,7 @@ public class ProductRepositoryTest extends SpringBootStartupApplicationTests {
         productRepository.save(product);
 
         Product productFromDB = productRepository.findById(1L).get();
-        assertEquals(productFromDB.getName(), "tt");
+        assertEquals(productFromDB.getName(), "t");
     }
 
     @Test
