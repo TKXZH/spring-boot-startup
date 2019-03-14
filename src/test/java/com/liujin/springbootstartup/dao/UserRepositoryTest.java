@@ -14,7 +14,7 @@ public class UserRepositoryTest extends SpringBootStartupApplicationTests {
 
     @Test
     public void testFindByIdAndPassword() {
-        User user = userRepository.findByIdAndPassword(2L, "123456");
+        User user = userRepository.findByIdAndPassword(2L, "12345");
         System.out.println(user);
     }
 }
