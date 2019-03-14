@@ -7,7 +7,7 @@
   <script src="https://cdn.bootcss.com/vue/2.6.8/vue.common.dev.js"></script>
 </head>
 <body>
-<h1>Hello, FreeMarker!</h1>
+<h1>Vue Startup</h1>
 
 
 <div id="app">
