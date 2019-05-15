@@ -20,8 +20,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	compile 'org.springframework.boot:spring-boot-starter-web'
 	compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+	compile 'org.springframework.boot:spring-boot-starter-data-rest'
 	compile 'mysql:mysql-connector-java:8.0.15'
 	compile 'org.springframework.boot:spring-boot-starter-freemarker'
+	compile 'io.springfox:springfox-swagger2:2.9.2'
+	compile 'io.springfox:springfox-swagger-ui:2.9.2'
+	compile 'io.springfox:springfox-data-rest:2.9.2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testCompile group: 'org.mockito', name: 'mockito-core', version: '2.23.4'
 }
