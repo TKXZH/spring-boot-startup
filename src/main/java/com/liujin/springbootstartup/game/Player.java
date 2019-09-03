@@ -15,6 +15,11 @@ public class Player {
 	Tile lastTilePlayed;
 	int roundsWon;
 
+	public Player(String name) {
+		this.tiles = Tile.values();
+		this.name = name;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -91,5 +96,26 @@ public class Player {
 		this.score = 0;
 		this.tiles = Tile.values();
 		this.lastTilePlayed = null;
+	}
+
+	public boolean penalty() {
+		return Arrays.asList(this.getTiles()).contains(Tile.TILE5);
+	}
+
+	public void printTiles() {
+		System.out.println("now you have tiles:");
+		for (Tile tile : this.getTiles()) {
+			System.out.print("[value:" + tile.getValue() + ", score:" + tile.getScore() + "] ");
+		}
+		System.out.println();
+	}
+
+	public boolean validateTile(int choseValue) {
+		for (Tile tile : this.getTiles()) {
+			if (choseValue == tile.getValue()) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

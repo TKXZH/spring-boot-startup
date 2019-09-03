@@ -1,6 +1,5 @@
 package com.liujin.springbootstartup.game;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -16,7 +15,7 @@ public class Game {
 	public static void main(String[] args) {
 		Game game = new Game();
 		Player humanPlayer = null;
-		Player computerPlayer = new ComputerPlayer();
+		Player computerPlayer = new Player("computer");
 		while (true) {
 			System.out.println(WELCOME_TIPS);
 			Scanner scanner = new Scanner(System.in);
@@ -55,7 +54,7 @@ public class Game {
 			}
 		}
 		System.out.println("welcome " + userName + "!");
-		return new HumanPlayer(userName);
+		return new Player(userName);
 	}
 
 	private void createNewGame(Player humanPlayer, Player computerPlayer) {
@@ -80,7 +79,11 @@ public class Game {
 
 			int totalValue = 0;
 			while (totalValue <= 21) {
-				currentPlayer.play();
+				if (currentPlayer == humanPlayer) {
+					humanPlay(currentPlayer);
+				} else {
+					computerPlay(currentPlayer);
+				}
 
 				// sum the value, check if the game should be ended, calculate the score
 				totalValue += currentPlayer.getLastTilePlayed().getValue();
@@ -90,10 +93,10 @@ public class Game {
 					int computerScore = computerPlayer.getScore();
 
 					// who did not use 5, will get penalty
-					if (!Arrays.asList(humanPlayer.getTiles()).contains(Tile.TILE5)) {
+					if (humanPlayer.penalty()) {
 						humanScore -= 3;
 					}
-					if (!Arrays.asList(computerPlayer.getTiles()).contains(Tile.TILE5)) {
+					if (computerPlayer.penalty()) {
 						computerScore -= 3;
 					}
 
@@ -122,5 +125,34 @@ public class Game {
 		} else {
 			System.out.println("finally, computer win!");
 		}
+	}
+
+	private void humanPlay(Player player) {
+		int choseValue = 0;
+		// validate the tile human played is valid or not
+		boolean needValidation = true;
+		while (needValidation) {
+			player.printTiles();
+
+			System.out.println("please choose one value to play");
+			Scanner scanner = new Scanner(System.in);
+			choseValue = scanner.nextInt();
+
+			if (player.validateTile(choseValue)) {
+				needValidation = false;
+			}
+
+			if (needValidation) {
+				System.out.println("you can not play a invalid tile!");
+			}
+		}
+
+		player.playTile(choseValue);
+
+	}
+
+	private void computerPlay(Player player) {
+		RNG rng = new RNG(player.getTiles().length - 1, 0);
+		player.playTile(player.getTiles()[rng.randomValue()].getValue());
 	}
 }
