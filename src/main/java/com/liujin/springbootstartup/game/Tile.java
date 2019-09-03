@@ -11,7 +11,7 @@ public enum Tile {
 	TILE7(7, 1);
 
 	Tile(int value, int score) {
-		this.score = value;
+		this.value = value;
 		this.score = score;
 	}
 

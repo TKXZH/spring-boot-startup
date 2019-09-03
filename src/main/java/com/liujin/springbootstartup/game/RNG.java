@@ -1,7 +1,5 @@
 package com.liujin.springbootstartup.game;
 
-import java.util.Random;
-
 /**
  * @author zonghuixu
  */
@@ -16,7 +14,6 @@ public class RNG {
 	}
 
 	public int randomValue() {
-		Random random = new Random();
-		return random.nextInt(maximumValue + 1) + minimumValue;
+		return minimumValue + (int) (Math.random() * (maximumValue - minimumValue + 1));
 	}
 }

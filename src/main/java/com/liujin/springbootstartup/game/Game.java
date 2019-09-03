@@ -1,5 +1,6 @@
 package com.liujin.springbootstartup.game;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -12,25 +13,21 @@ public class Game {
 		+ "Press 3 to view a help menu\n"
 		+ "Press 4 to exit";
 
-	private Player humanPlayer;
-	private Player computerPlayer;
-
 	public static void main(String[] args) {
 		Game game = new Game();
-
+		Player humanPlayer = null;
+		Player computerPlayer = new ComputerPlayer();
 		while (true) {
 			System.out.println(WELCOME_TIPS);
 			Scanner scanner = new Scanner(System.in);
 			int selectedOption = scanner.nextInt();
 
-			Player player1 = null;
-			Player player2 = new ComputerPlayer();
 			switch (selectedOption) {
 				case 1:
-					player1 = game.registerHumanPlayer();
+					humanPlayer = game.registerHumanPlayer();
 					break;
 				case 2:
-					game.createNewGame(player1, player2);
+					game.createNewGame(humanPlayer, computerPlayer);
 					break;
 				case 3:
 					break;
@@ -61,13 +58,69 @@ public class Game {
 		return new HumanPlayer(userName);
 	}
 
-	private void createNewGame(Player player1, Player player2) {
+	private void createNewGame(Player humanPlayer, Player computerPlayer) {
+		// validate if the human player is registered
+		if (humanPlayer == null) {
+			System.out.println("please register player first!");
+			return;
+		}
+
+		RNG rng = new RNG(1, 0);
+
+		System.out.println("please input rounds you want to play");
 		int round = new Scanner(System.in).nextInt();
 		for (int i = 0; i < round; i++) {
+			System.out.println("new round starts!");
+			Player currentPlayer = null;
+			if (rng.randomValue() == 1) {
+				currentPlayer = humanPlayer;
+			} else {
+				currentPlayer = computerPlayer;
+			}
+
 			int totalValue = 0;
 			while (totalValue <= 21) {
+				currentPlayer.play();
 
+				// sum the value, check if the game should be ended, calculate the score
+				totalValue += currentPlayer.getLastTilePlayed().getValue();
+				System.out.println("now, total value is " + totalValue);
+				if (totalValue >= 21) {
+					int humanScore = humanPlayer.getScore();
+					int computerScore = computerPlayer.getScore();
+
+					// who did not use 5, will get penalty
+					if (!Arrays.asList(humanPlayer.getTiles()).contains(Tile.TILE5)) {
+						humanScore -= 3;
+					}
+					if (!Arrays.asList(computerPlayer.getTiles()).contains(Tile.TILE5)) {
+						computerScore -= 3;
+					}
+
+					if (humanScore > computerScore) {
+						humanPlayer.setRondsWon(humanPlayer.getRondsWon() + 1);
+						System.out.println(humanPlayer.getName() + " win!");
+					} else {
+						computerPlayer.setRondsWon(computerPlayer.getRondsWon() + 1);
+						System.out.println(computerPlayer.getName() + " win!");
+					}
+					humanPlayer.reset();
+					computerPlayer.reset();
+					break;
+				}
+				//turn exchange
+				if (currentPlayer == humanPlayer) {
+					currentPlayer = computerPlayer;
+				} else {
+					currentPlayer = humanPlayer;
+				}
 			}
+		}
+
+		if (humanPlayer.getRondsWon() > computerPlayer.getRondsWon()) {
+			System.out.println("finally, human win!");
+		} else {
+			System.out.println("finally, computer win!");
 		}
 	}
 }

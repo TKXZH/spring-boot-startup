@@ -5,12 +5,7 @@ import java.util.Scanner;
 /**
  * @author zonghuixu
  */
-public class HumanPlayer implements Player {
-	private String name;
-	private int score;
-	private Tile[] tiles;
-	private Tile lastTilePlayed;
-	private int roundsWon;
+public class HumanPlayer extends Player {
 
 	public HumanPlayer(String name) {
 		this.tiles = Tile.values();
@@ -18,55 +13,35 @@ public class HumanPlayer implements Player {
 	}
 
 	@Override
-	public int play() {
-		boolean tileSelected = true;
-		while (true) {
-			System.out.println("====================");
-			System.out.println("now you have " + tiles.length + "tiles:");
+	public void play() {
+
+		int choseValue = 0;
+		// validate the tile human played is valid or not
+		boolean needValidation = true;
+		while (needValidation) {
+			System.out.println("now you have tiles:");
+			for (Tile tile : tiles) {
+				System.out.print("[value:" + tile.getValue() + ", score:" + tile.getScore() + "] ");
+			}
+			System.out.println();
+
+			System.out.println("please choose one value to play");
 			Scanner scanner = new Scanner(System.in);
-			int tileValueSelected = scanner.nextInt();
-			System.out.println("====================");
+			choseValue = scanner.nextInt();
+
+			for (Tile tile : tiles) {
+				if (choseValue == tile.getValue()) {
+					needValidation = false;
+				}
+			}
+
+			if (needValidation) {
+				System.out.println("you can not play a invalid tile!");
+			}
 		}
 
+		this.playTile(choseValue);
+
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public int getScore() {
-		return score;
-	}
-
-	public void setScore(int score) {
-		this.score = score;
-	}
-
-	public Tile[] getTiles() {
-		return tiles;
-	}
-
-	public void setTiles(Tile[] tiles) {
-		this.tiles = tiles;
-	}
-
-	public Tile getLastTilePlayed() {
-		return lastTilePlayed;
-	}
-
-	public void setLastTilePlayed(Tile lastTilePlayed) {
-		this.lastTilePlayed = lastTilePlayed;
-	}
-
-	public int getRondsWon() {
-		return roundsWon;
-	}
-
-	public void setRondsWon(int rondsWon) {
-		this.roundsWon = rondsWon;
-	}
 }

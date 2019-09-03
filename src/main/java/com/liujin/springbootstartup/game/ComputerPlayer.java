@@ -3,16 +3,16 @@ package com.liujin.springbootstartup.game;
 /**
  * @author zonghuixu
  */
-public class ComputerPlayer implements Player {
+public class ComputerPlayer extends Player {
 
-	private String name;
-	private int score;
-	private Tile[] tiles;
-	private Tile lastTilePlayed;
-	private int roundsWon;
+	public ComputerPlayer() {
+		this.tiles = Tile.values();
+		this.name = "computer";
+	}
 
 	@Override
-	public int play() {
-		return 0;
+	public void play() {
+		RNG rng = new RNG(this.getTiles().length - 1, 0);
+		this.playTile(this.getTiles()[rng.randomValue()].getValue());
 	}
 }
